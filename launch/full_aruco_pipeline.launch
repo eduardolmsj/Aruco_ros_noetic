@@ -1,0 +1,24 @@
+<launch>
+    <!-- Start USB Camera -->
+    <node pkg="usb_cam" type="usb_cam_node" name="usb_cam" output="screen">
+        <param name="video_device" value="/dev/video0"/>
+        <param name="image_width" value="640"/>
+        <param name="image_height" value="480"/>
+        <param name="pixel_format" value="yuyv"/>
+        <param name="camera_frame_id" value="usb_cam"/>
+        <param name="camera_info_url" value="file:///ros_ws/calibrations/my_webcam.yaml"/>
+    </node>
+
+    <!-- Run ArUco Detection -->
+    <node pkg="aruco_ros" type="single" name="aruco_single" output="screen">
+        <remap from="/image" to="/usb_cam/image_raw"/>
+        <remap from="/camera_info" to="/usb_cam/camera_info"/>
+        <param name="camera_info_url" value="file:///ros_ws/calibrations/my_webcam.yaml"/>
+        <param name="use_camera_info" value="true"/>
+        <param name="image_topic" value="/usb_cam/image_raw"/>
+        <param name="marker_size" value="0.02"/>  <!-- Marker size in meters -->
+        <param name="camera_frame" value="usb_cam"/>
+        <param name="reference_frame" value="usb_cam"/>
+        <param name="marker_frame" value="aruco_marker"/>
+    </node>
+</launch>
