@@ -1,1 +1,3 @@
 captures/
+*.npz
+camera_calibration/*
