@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     ros-noetic-usb-cam \
     ros-noetic-rviz \
     ros-noetic-rqt-graph \
+    ros-noetic-rqt-topic \
     python3-rosdep \
     python3-colcon-common-extensions \
     python3-catkin-tools \
