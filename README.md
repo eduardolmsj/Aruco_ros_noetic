@@ -75,7 +75,31 @@ By following these commands, you can launch the entire system inside Docker and 
 1. **Calibrate your camera** → Save results to `camera_calibration/my_webcam.yaml`
 2. **Build and run the Docker container** → Follow steps in `cmd.txt`
 3. **Launch the ArUco detection node** → Using the provided launch file
-4. **Point your webcam at an ArUco marker** and observe detection results (it can be seen through **rqt_image_view** in the **aruco_single/result** topic)
+4. **Point your webcam at an ArUco marker** and observe detection results (it can be seen through **rqt_image_view** in the **aruco_marker_publisher/result** topic)
+
+The results are published to /aruco_marker_publisher/markers, like this:
+
+```
+header: 
+  seq: 0
+  stamp: 
+    secs: 1751980672
+    nsecs: 969804506
+  frame_id: "usb_cam"
+id: 115
+pose: 
+  pose: 
+    position: 
+      x: -0.00266
+      y:  0.01967
+      z:  0.44075
+    orientation: 
+      x: 0.98798
+      y: -0.01915
+      z: 0.02042
+      w: -0.15197
+  covariance: [ ... ]
+```
 
 ---
 
