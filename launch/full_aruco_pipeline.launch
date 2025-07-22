@@ -13,27 +13,18 @@
     <node pkg="aruco_ros" type="marker_publisher" name="aruco_marker_publisher" output="screen">
         <remap from="image" to="/usb_cam/image_raw"/>
         <remap from="camera_info" to="/usb_cam/camera_info"/>
-        <param name="camera_info_url" value="file:///ros_ws/calibrations/my_webcam.yaml"/>
-        <param name="camera_frame" value="usb_cam"/>
+
         <param name="marker_size" value="0.02"/> <!-- Marker size in meters -->
-        <param name="reference_frame" value="usb_cam"/>
-        <param name="image_is_rectified" value="true"/>
-        <param name="publish_tf" value="true"/> <!-- Optional: publish TF per marker -->
-        <param name="detection_mode" value="DM_FAST"/> <!-- Optional: fast detection -->
-        <param name="debug" value="true"/>
+        <param name="reference_frame" value="usb_cam"/> <!-- Used as parent frame in TF -->
+        <param name="camera_frame" value="usb_cam"/>
+        <param name="image_is_rectified" value="false"/> <!-- false: raw image -->
+        <param name="publish_tf" value="true"/> <!-- Publish TFs for each marker -->
+        <param name="detection_mode" value="DM_FAST"/>
+        <param name="debug" value="false"/>
     </node>
 
-    <!-- Run Single ArUco Detection -->
-    <!-- <node pkg="aruco_ros" type="single" name="aruco_single" output="screen">
-        <remap from="/image" to="/usb_cam/image_raw"/>
-        <remap from="/camera_info" to="/usb_cam/camera_info"/>
-        <param name="camera_info_url" value="file:///ros_ws/calibrations/my_webcam.yaml"/>
-        <param name="use_camera_info" value="true"/>
-        <param name="image_topic" value="/usb_cam/image_raw"/>
-        <param name="marker_size" value="0.02"/> 
-        <param name="marker_id" value="33"/>
+    <!-- Optional: Run TF to Fiducial converter as a nodelet -->
+    <node pkg="aruco_bridge" type="aruco_to_fiducial_publisher.py" name="aruco_to_fiducial" output="screen">
         <param name="camera_frame" value="usb_cam"/>
-        <param name="reference_frame" value="usb_cam"/>
-        <param name="marker_frame" value="aruco_marker"/>
-    </node> -->
+    </node>
 </launch>
