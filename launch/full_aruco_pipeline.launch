@@ -20,11 +20,12 @@
         <param name="image_is_rectified" value="false"/> <!-- false: raw image -->
         <param name="publish_tf" value="true"/> <!-- Publish TFs for each marker -->
         <param name="detection_mode" value="DM_FAST"/>
-        <param name="debug" value="false"/>
+        <param name="debug" value="true"/>
     </node>
 
     <!-- Optional: Run TF to Fiducial converter as a nodelet -->
     <node pkg="aruco_bridge" type="aruco_to_fiducial_publisher.py" name="aruco_to_fiducial" output="screen">
         <param name="camera_frame" value="usb_cam"/>
+        <param name="marker_topic" value="/aruco_marker_publisher/markers"/>
     </node>
 </launch>
