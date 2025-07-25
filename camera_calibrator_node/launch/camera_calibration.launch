@@ -1,0 +1,19 @@
+<launch>
+  <!-- USB Cam Node -->
+  <node pkg="usb_cam" type="usb_cam_node" name="usb_cam" output="screen">
+    <param name="video_device" value="/dev/video0" />
+    <param name="image_width" value="640" />
+    <param name="image_height" value="480" />
+    <param name="pixel_format" value="yuyv" />
+    <param name="camera_frame_id" value="usb_cam" />
+  </node>
+
+  <!-- Camera Calibration Node -->
+  <node pkg="camera_calibration" type="camera_calibrator_node.py" name="camera_calibrator" output="screen">
+    <param name="chessboard_shape" value="[5,8]" />
+    <param name="square_size" value="0.01" />
+    <param name="image_topic" value="/usb_cam/image_raw" />
+    <param name="output_file" value="/tmp/camera_calibration.yaml" />
+    <param name="num_captures" value="20" />
+  </node>
+</launch>

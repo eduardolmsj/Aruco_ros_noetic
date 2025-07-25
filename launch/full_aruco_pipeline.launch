@@ -14,7 +14,7 @@
         <remap from="image" to="/usb_cam/image_raw"/>
         <remap from="camera_info" to="/usb_cam/camera_info"/>
 
-        <param name="marker_size" value="0.02"/> <!-- Marker size in meters -->
+        <param name="marker_size" value="0.015"/> <!-- Marker size in meters -->
         <param name="reference_frame" value="usb_cam"/> <!-- Used as parent frame in TF -->
         <param name="camera_frame" value="usb_cam"/>
         <param name="image_is_rectified" value="false"/> <!-- false: raw image -->

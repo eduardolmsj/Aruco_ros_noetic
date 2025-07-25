@@ -1,0 +1,41 @@
+FROM ros:noetic
+
+# Install dependencies
+RUN apt update && apt install -y \
+    ros-noetic-rqt-image-view \
+    ros-noetic-rqt-graph \
+    ros-noetic-rqt-topic \
+    ros-noetic-rqt-service-caller \
+    python3-pip \
+    python3-opencv \
+    python3-yaml \
+    ros-noetic-usb-cam \
+    ros-noetic-cv-bridge \
+    ros-noetic-image-transport \
+    ros-noetic-sensor-msgs \
+    ros-noetic-std-srvs \
+    ros-noetic-catkin
+
+# Create workspace and ROS package
+RUN mkdir -p /ros_ws/src && \
+    cd /ros_ws/src && \
+    catkin_create_pkg camera_calibration rospy std_srvs sensor_msgs cv_bridge
+
+# Copy Python script and launch file into the package
+COPY camera_calibrator_node.py /ros_ws/src/camera_calibration/scripts/camera_calibrator_node.py
+COPY launch /ros_ws/launch
+
+# Make Python script executable
+RUN chmod +x /ros_ws/src/camera_calibration/scripts/camera_calibrator_node.py
+
+# Build the workspace
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && cd /ros_ws && catkin_make"
+
+# Source environment in bashrc for runtime
+SHELL ["/bin/bash", "-c"]
+RUN echo "source /opt/ros/noetic/setup.bash && source /ros_ws/devel/setup.bash" >> ~/.bashrc
+
+# Set working directory and default launch command
+WORKDIR /ros_ws
+# CMD ["roslaunch", "ros_ws/launch/camera_calibration.launch"]
+CMD ["bash"]

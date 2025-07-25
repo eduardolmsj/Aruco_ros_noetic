@@ -2,7 +2,7 @@
 xhost +local:root
 
 #build and run the app
-docker build -t ros_noetic_webcam_aruco .
+docker build -t ros_camera_calibration .
 
 docker image prune --force
 
@@ -10,11 +10,11 @@ docker run -it --rm \
     --device=/dev/video0 \
     -e DISPLAY=$DISPLAY \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
-    ros_noetic_webcam_aruco
+    ros_camera_calibration
 
 # run the app within the container
 source /ros_ws/devel/setup.bash
-roslaunch /ros_ws/launch/full_aruco_pipeline.launch
+roslaunch /ros_ws/launch/camera_calibration.launch
 
 # open container bash
 docker exec -it $(docker ps -q | head -n 1) bash
@@ -22,5 +22,10 @@ docker exec -it $(docker ps -q | head -n 1) bash
 # see images within container
 rqt_image_view
 
-# check aruco detections topic
-rostopic echo /aruco_marker_publisher/markers
+# capture frame
+rosservice call /capture_frame
+rqt --standalone rqt_service_caller
+
+# run bash script
+chmod +x run_camera_calibration.sh
+./run_camera_calibration.sh
